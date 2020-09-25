@@ -7,33 +7,42 @@ import rospkg
 import csv
 from signal import signal, SIGINT
 from sys import exit
+from termcolor import colored
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
-from termcolor import colored
+
 
 
 def cb_output(data):
-    json_dict = json.loads(data.data)
-    if check_address(json_dict, "ETRI", "UOS", "human_recognition"):
-        print('Output Topic Name : {}'.format(colored("/recognitionResult", 'white', attrs=['bold'])))
-        print('From : {}'.format(colored("[M2-1] ETRI Short-term Sociality Recognizer", 'blue', attrs=['bold'])))
-        print(data.data)
 
-    if check_address(json_dict, "perception", "planning", "human_personality"):
-        print('Output Topic Name : {}'.format(colored("/recognitionResult", 'white', attrs=['bold'])))
-        print('From : {}'.format(colored("[M2-4] KIST Personality Recognizer", 'blue', attrs=['bold'])))
-        print(data.data)
+    try :
+        json_dict = json.loads(data.data)
+        if check_address(json_dict, "ETRI", "UOS", "human_recognitiopn"):
+            print('Output Topic Name : {}'.format(colored("/recognitionResult", 'white', attrs=['bold'])))
+            print('From : {}'.format(colored("[M2-1] ETRI Short-term Sociality Recognizer", 'blue', attrs=['bold'])))
+            json_string = json.dumps(json_dict, ensure_ascii=False, indent=4)
+            print(json_string)
 
-    if check_address(json_dict, "dialog", "planning", "dialog_generation"):
-        print('Output Topic Name : {}'.format(colored("/taskCompletion", 'white', attrs=['bold'])))
-        print('From : {}'.format(colored("[M2-6] HY Dialogue Generator", 'blue', attrs=['bold'])))
-        print(data.data)
+        if check_address(json_dict, "perception", "planning", "human_personality"):
+            print('Output Topic Name : {}'.format(colored("/recognitionResult", 'white', attrs=['bold'])))
+            print('From : {}'.format(colored("[M2-4] KIST Personality Recognizer", 'blue', attrs=['bold'])))
+            print(data.data)
 
-    if check_address(json_dict, "dialog", "planning", "dialog_intent"):
-        print('Output Topic Name : {}'.format(colored("/dialog_intent", 'white', attrs=['bold'])))
-        print('From : {}'.format(colored("[M2-7] HY Intention Classifier", 'blue', attrs=['bold'])))
-        print(data.data)
+        if check_address(json_dict, "dialog", "planning", "dialog_generation"):
+            print('Output Topic Name : {}'.format(colored("/taskCompletion", 'white', attrs=['bold'])))
+            print('From : {}'.format(colored("[M2-6] HY Dialogue Generator", 'blue', attrs=['bold'])))
+            print(data.data)
+
+        if check_address(json_dict, "dialog", "planning", "dialog_intent"):
+            print('Output Topic Name : {}'.format(colored("/dialog_intent", 'white', attrs=['bold'])))
+            print('From : {}'.format(colored("[M2-7] HY Intention Classifier", 'blue', attrs=['bold'])))
+            print(data.data)
+    except ValueError : 
+        pass
+
+
+
 
 
 

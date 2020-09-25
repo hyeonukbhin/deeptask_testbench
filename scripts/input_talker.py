@@ -54,9 +54,9 @@ def cb_intent():
         if speech_num == 1:
             user_speech = "좋아진 것 같아"
         elif speech_num == 2:
-            user_speech = "설렁탕 먹었어"
+            user_speech = "설렁탕 먹었지"
         elif speech_num == 3:
-            user_speech = "잘잤어"
+            user_speech = "잘잤지"
         else:
             user_speech = ""
 

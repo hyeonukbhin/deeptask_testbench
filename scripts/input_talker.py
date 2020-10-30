@@ -8,10 +8,39 @@ import csv
 from signal import signal, SIGINT
 from sys import exit
 import sys
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
 from termcolor import colored
+
+
+def cb_action():
+    current_time = rospy.get_rostime()
+    action_dict = {
+        "header": {
+            "timestamp": "1514956482.075935057",
+            "source": "planning",
+            "target": ["action"],
+            "content": ["robot_action"]
+        },
+        "robot_action": {
+            "id": 319,
+            "sm": "greeting",
+            "behavior": "action",
+            "user": "test",
+            "dialog": "hi."
+        }
+    }
+
+    json_string = json.dumps(action_dict, ensure_ascii=False, indent=4)
+    pub_input_dialog.publish(json_string)
+    print('Input Topic Name : {}'.format(colored("/taskExecution", 'white', attrs=['bold'])))
+    print(json_string)
+    print("Press Enter to continue or Type exit to terminate")
+    end_flag = raw_input("")
+    # print('{}'.format(colored(json_string, 'white', attrs=['bold'])))
+
 
 def cb_dialog():
     current_time = rospy.get_rostime()
@@ -80,7 +109,6 @@ def cb_intent():
         print('Input Topic Name : {}'.format(colored("/recognitionResult", 'white', attrs=['bold'])))
         print(json_string)
 
-
         print("Press Enter to continue or Type exit to terminate")
         end_flag = raw_input("")
         if end_flag == "exit":
@@ -92,18 +120,22 @@ def terminal_loop():
         print("=============================================")
         print("             2세부 Input Talker              ")
         print("=============================================")
-        print("1. [M2-6] 발화생성기(HY) Input Topic Publish ")
-        print("2. [M2-7] 의도추정기(HY) Input Topic Publish ")
+        print("1. [M2-5] 로봇 행동 표현 엔진(UoA) Input Topic Publish ")
+        print("2. [M2-6] 발화생성기(HY) Input Topic Publish ")
+        print("3. [M2-7] 의도추정기(HY) Input Topic Publish ")
         mode = int(raw_input("-> "))
         if mode == 1:
-            cb_dialog()
+            cb_action()
         elif mode == 2:
+            cb_dialog()
+        elif mode == 3:
             cb_intent()
 
 
 def termination_handler(signal_received, frame):
     print('SIGINT or CTRL-C detected. Exiting gracefully')
     exit(0)
+
 
 def main():
     global pub_input_intent

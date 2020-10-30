@@ -14,16 +14,72 @@ sys.setdefaultencoding('utf-8')
 
 
 
+'''
+              "social_action": nSocialActionCode,     // -1: not recognized,
+                                                        //  0:bitenail,                   
+                                                        //  1: covering mouth with hands,
+                                                        //  2: cheering up!, 3: finger heart sign,
+                                                        //  4: OK sign, 5: crossing arms, 6: neutral
+                                                        //  7: picking ears,
+                                                        //  8: resting chin on a hand,
+                                                        //  9: scratching head, 10: shake hands 
+                                                        // 11: a thumb up, 12: touching nose
+                                                        // 13: waving hand, 14: bowing 
+'''
+
+def convert_social_action_name(action_num):
+    if action_num is -1:
+        action_str = "not recognized"
+    elif action_num is 0:
+        action_str = "bitenail"
+    elif action_num is 1:
+        action_str = "covering mouth with hands,"
+    elif action_num is 2:
+        action_str = "cheering up!"
+    elif action_num is 3:
+        action_str = "finger heart sign"
+    elif action_num is 4:
+        action_str = "OK sign,"
+    elif action_num is 5:
+        action_str = "crossing arm"
+    elif action_num is 6:
+        action_str = "neutral"
+    elif action_num is 7:
+        action_str = "picking ears,"
+    elif action_num is 8:
+        action_str = "resting chin on a hand,"
+    elif action_num is 9:
+        action_str = "scratching head,"
+    elif action_num is 10:
+        action_str = "shake hands "
+    elif action_num is 11:
+        action_str = "a thumb up"
+    elif action_num is 12:
+        action_str = "touching nose"
+    elif action_num is 13:
+        action_str = "waving hand,"
+    elif action_num is 14:
+        action_str = "bowing"
+    return action_str
+
+
+
 def cb_output(data):
+    json_dict = json.loads(data.data)
+
+    if check_address(json_dict, "ETRI", "UOS", "human_recognitiopn"):
+        print('Output Topic Name : {}'.format(colored("/recognitionResult", 'white', attrs=['bold'])))
+        print('From : {}'.format(colored("[M2-1] ETRI Short-term Sociality Recognizer", 'blue', attrs=['bold'])))
+
+#	print(json_dict["human_recognition"][0]["social_action"])
+        social_action_str = convert_social_action_name(int(json_dict["human_recognition"][0]["social_action"]))
+        print('Social Action : {}'.format(colored(social_action_str, 'white', attrs=['bold'])))
+        json_string = json.dumps(json_dict, ensure_ascii=False, indent=4)
+
+        print(json_string)
+
 
     try :
-        json_dict = json.loads(data.data)
-        if check_address(json_dict, "ETRI", "UOS", "human_recognitiopn"):
-            print('Output Topic Name : {}'.format(colored("/recognitionResult", 'white', attrs=['bold'])))
-            print('From : {}'.format(colored("[M2-1] ETRI Short-term Sociality Recognizer", 'blue', attrs=['bold'])))
-            json_string = json.dumps(json_dict, ensure_ascii=False, indent=4)
-            print(json_string)
-
         if check_address(json_dict, "perception", "planning", "human_personality"):
             print('Output Topic Name : {}'.format(colored("/recognitionResult", 'white', attrs=['bold'])))
             print('From : {}'.format(colored("[M2-4] KIST Personality Recognizer", 'blue', attrs=['bold'])))

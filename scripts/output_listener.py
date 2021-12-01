@@ -65,38 +65,41 @@ def convert_social_action_name(action_num):
 
 
 def cb_output(data):
-    json_dict = json.loads(data.data)
-
-    if check_address(json_dict, "ETRI", "UOS", "human_recognitiopn"):
-        print('Output Topic Name : {}'.format(colored("/recognitionResult", 'white', attrs=['bold'])))
-        print('From : {}'.format(colored("[M2-1] ETRI Short-term Sociality Recognizer", 'blue', attrs=['bold'])))
-
-#	print(json_dict["human_recognition"][0]["social_action"])
-        social_action_str = convert_social_action_name(int(json_dict["human_recognition"][0]["social_action"]))
-        print('Social Action : {}'.format(colored(social_action_str, 'white', attrs=['bold'])))
-        json_string = json.dumps(json_dict, ensure_ascii=False, indent=4)
-
-        print(json_string)
-
-
     try :
-        if check_address(json_dict, "perception", "planning", "human_personality"):
+
+        json_dict = json.loads(data.data)
+
+        if check_address(json_dict, "ETRI", "UOS", "human_recognitiopn"):
             print('Output Topic Name : {}'.format(colored("/recognitionResult", 'white', attrs=['bold'])))
-            print('From : {}'.format(colored("[M2-4] KIST Personality Recognizer", 'blue', attrs=['bold'])))
-            print(data.data)
+            print('From : {}'.format(colored("[M2-1] ETRI Short-term Sociality Recognizer", 'blue', attrs=['bold'])))
 
-        if check_address(json_dict, "dialog", "planning", "dialog_generation"):
-            print('Output Topic Name : {}'.format(colored("/taskCompletion", 'white', attrs=['bold'])))
-            print('From : {}'.format(colored("[M2-6] HY Dialogue Generator", 'blue', attrs=['bold'])))
-            print(data.data)
+    #	print(json_dict["human_recognition"][0]["social_action"])
+            social_action_str = convert_social_action_name(int(json_dict["human_recognition"][0]["social_action"]))
+            print('Social Action : {}'.format(colored(social_action_str, 'white', attrs=['bold'])))
+            json_string = json.dumps(json_dict, ensure_ascii=False, indent=4)
 
-        if check_address(json_dict, "dialog", "planning", "dialog_intent"):
-            print('Output Topic Name : {}'.format(colored("/dialog_intent", 'white', attrs=['bold'])))
-            print('From : {}'.format(colored("[M2-7] HY Intention Classifier", 'blue', attrs=['bold'])))
-            print(data.data)
+            print(json_string)
+
+
+        try :
+            if check_address(json_dict, "perception", "planning", "human_personality"):
+                print('Output Topic Name : {}'.format(colored("/recognitionResult", 'white', attrs=['bold'])))
+                print('From : {}'.format(colored("[M2-4] KIST Personality Recognizer", 'blue', attrs=['bold'])))
+                print(data.data)
+
+            if check_address(json_dict, "dialog", "planning", "dialog_generation"):
+                print('Output Topic Name : {}'.format(colored("/taskCompletion", 'white', attrs=['bold'])))
+                print('From : {}'.format(colored("[M2-6] HY Dialogue Generator", 'blue', attrs=['bold'])))
+                print(data.data)
+
+            if check_address(json_dict, "dialog", "planning", "dialog_intent"):
+                print('Output Topic Name : {}'.format(colored("/dialog_intent", 'white', attrs=['bold'])))
+                print('From : {}'.format(colored("[M2-7] HY Intention Classifier", 'blue', attrs=['bold'])))
+                print(data.data)
+        except ValueError : 
+            pass
     except ValueError : 
         pass
-
 
 
 

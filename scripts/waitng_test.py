@@ -1,5 +1,6 @@
 #!/usr/bin/python2.7
 # -*- coding: utf-8 -*-
+from os import wait
 from termcolor import colored
 import json
 import rospy
@@ -53,38 +54,54 @@ def cb_rgb():
     # print('{}'.format(colored(json_string, 'white', attrs=['bold'])))
 
 
-def cb_waiting():
-    # RGB EAR BG
-
-    pub_earL.publish(ColorRGBA(0.0, 1.0, 1.0, 0.0))
-    pub_earR.publish(ColorRGBA(0.0, 1.0, 1.0, 0.0))
+def waiting_start():
+    pub_beep = rospy.Publisher("robot_beep", Empty, queue_size=100)
+    pub_earL = rospy.Publisher("earL_led", ColorRGBA, queue_size=100)
+    pub_earR = rospy.Publisher("earR_led", ColorRGBA, queue_size=100)
+    pub_torso = rospy.Publisher("torso_led", ColorRGBA, queue_size=100)
+    pub_lidar = rospy.Publisher("lidar_led", ColorRGBA, queue_size=100)
+    pub_cmd_pos = rospy.Publisher("cmd_pos", JointState, queue_size=100)
+    pub_beep.publish(Empty())
+    pub_earL.publish(ColorRGBA(0.0, 1.0, 0.0, 0.0))
+    pub_earR.publish(ColorRGBA(0.0, 1.0, 0.0, 0.0))
+    pub_torso.publish(ColorRGBA(0.0, 1.0, 0.0, 0.0))
+    pub_lidar.publish(ColorRGBA(0.0, 1.0, 0.0, 0.0))
 
     msg = JointState()
     msg.header.stamp = rospy.Time.now()
-
-    # msg.header.seq = 0
-    # msg.header.stamp = {"secs": 0, "nsecs": 0}
-
     msg.name = ['']
-    msg.position = [0.0, 0.0, 0.1, 0.0]
+    msg.position = [0.0, 0.0, 0.15, 0.0]
     msg.velocity = [0.3, 0.3, 1.3, 0.3]
     msg.effort = [0]
     pub_cmd_pos.publish(msg)
 
-    rospy.sleep(2)
+
+def waiting_end():
+    pub_beep = rospy.Publisher("robot_beep", Empty, queue_size=100)
+    pub_earL = rospy.Publisher("earL_led", ColorRGBA, queue_size=100)
+    pub_earR = rospy.Publisher("earR_led", ColorRGBA, queue_size=100)
+    pub_torso = rospy.Publisher("torso_led", ColorRGBA, queue_size=100)
+    pub_lidar = rospy.Publisher("lidar_led", ColorRGBA, queue_size=100)
+    pub_cmd_pos = rospy.Publisher("cmd_pos", JointState, queue_size=100)
     pub_earL.publish(ColorRGBA(1.0, 1.0, 1.0, 0.0))
     pub_earR.publish(ColorRGBA(1.0, 1.0, 1.0, 0.0))
+    pub_torso.publish(ColorRGBA(1.0, 1.0, 1.0, 0.0))
+    pub_lidar.publish(ColorRGBA(1.0, 1.0, 1.0, 0.0))
 
     msg = JointState()
     msg.header.stamp = rospy.Time.now()
-
-    # msg.header.seq = 0
-    # msg.header.stamp = {"secs": 0, "nsecs": 0}
     msg.name = ['']
     msg.position = [0.0, 0.0, 0.0, 0.0]
     msg.velocity = [0.3, 0.3, 0.3, 0.3]
     msg.effort = [0]
     pub_cmd_pos.publish(msg)
+
+
+def cb_waiting():
+
+    waiting_start()
+    rospy.sleep(2)
+    waiting_end()
 
 
 def terminal_loop():
@@ -107,15 +124,16 @@ def termination_handler(signal_received, frame):
 
 
 def main():
-    global pub_earL, pub_earR, pub_torso, pub_lidar, pub_wheel, pub_cmd_pos
+    # global pub_earL, pub_earR, pub_torso, pub_lidar, pub_wheel, pub_cmd_pos, pub_beep
 
     rospy.init_node('input_talker', anonymous=False)
-    pub_earL = rospy.Publisher("earL_led", ColorRGBA, queue_size=100)
-    pub_earR = rospy.Publisher("earR_led", ColorRGBA, queue_size=100)
-    pub_torso = rospy.Publisher("torso_led", ColorRGBA, queue_size=100)
-    pub_lidar = rospy.Publisher("lidar_led", ColorRGBA, queue_size=100)
-    pub_wheel = rospy.Publisher("wheel_led", ColorRGBA, queue_size=100)
-    pub_cmd_pos = rospy.Publisher("cmd_pos", JointState, queue_size=100)
+    # pub_beep = rospy.Publisher("robot_beep", Empty, queue_size=100)
+    # pub_earL = rospy.Publisher("earL_led", ColorRGBA, queue_size=100)
+    # pub_earR = rospy.Publisher("earR_led", ColorRGBA, queue_size=100)
+    # pub_torso = rospy.Publisher("torso_led", ColorRGBA, queue_size=100)
+    # pub_lidar = rospy.Publisher("lidar_led", ColorRGBA, queue_size=100)
+    # pub_wheel = rospy.Publisher("wheel_led", ColorRGBA, queue_size=100)
+    # pub_cmd_pos = rospy.Publisher("cmd_pos", JointState, queue_size=100)
 
     terminal_loop()
     rospy.spin()

@@ -71,7 +71,7 @@ def waiting_start():
     msg.header.stamp = rospy.Time.now()
     msg.name = ['']
     msg.position = [0.0, 0.0, 0.15, 0.0]
-    msg.velocity = [0.3, 0.3, 1.3, 0.3]
+    msg.velocity = [0.3, 0.3, 0.3, 0.3]
     msg.effort = [0]
     pub_cmd_pos.publish(msg)
 

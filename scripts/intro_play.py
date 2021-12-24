@@ -24,7 +24,7 @@ class IntroPlay:
     def __init__(self):
         rospy.init_node('IntroPlay', anonymous=False)
         rospy.Subscriber("test", String, self.cb_test)
-        self.pub_cmd_vel = rospy.Publisher("robot_beep", Twist, queue_size=100)
+        self.pub_cmd_vel = rospy.Publisher("cmd_vel", Twist, queue_size=100)
         self.srv_motion_play = rospy.ServiceProxy('/social_motion_player/play_motion', SocialMotion)
         print("Waiting sct_trigger service...")
         rospy.wait_for_service('/social_motion_player/play_motion')

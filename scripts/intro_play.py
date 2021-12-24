@@ -43,14 +43,14 @@ class IntroPlay:
             print("motion played")
             print(response_sct)
         if input_str == "1":
-            # file_name = "right_hand_wink"
-            # text = "안녕하세요 저는 노인지원 서비스로봇이에요"
-            # response_action = SocialMotionRequest(file_name=file_name, text=text, with_home=False)
-            # response_sct = self.srv_motion_play.call(response_action)
+            file_name = "right_hand_wink"
+            text = "안녕하세요"
+            response_action = SocialMotionRequest(file_name=file_name, text=text, with_home=False)
+            response_sct = self.srv_motion_play.call(response_action)
             print("ttttttttt")
             vel_msg = Twist()
-            vel_msg.linear.x = 0.1
-            vel_msg.linear.y = 0.1
+            vel_msg.linear.x = 0.2
+            vel_msg.linear.y = 0.2
             vel_msg.linear.z = 0.0
             vel_msg.angular.x = 0.0
             vel_msg.angular.y = 0.0
@@ -58,10 +58,13 @@ class IntroPlay:
             self.pub_cmd_vel.publish(vel_msg)
             rospy.sleep(2)
             print("aaaaaaaaaaa")
-
+            file_name = "eye_rub"
+            text = "저는요"
+            response_action = SocialMotionRequest(file_name=file_name, text=text, with_home=False)
+            response_sct = self.srv_motion_play.call(response_action)
             vel_msg = Twist()
             vel_msg.linear.x = 0.0
-            vel_msg.linear.y = -0.1
+            vel_msg.linear.y = -0.2
             vel_msg.linear.z = 0.0
             vel_msg.angular.x = 0.0
             vel_msg.angular.y = 0.0
@@ -69,10 +72,13 @@ class IntroPlay:
             self.pub_cmd_vel.publish(vel_msg)
             rospy.sleep(2)
             print("aaaaaaaaaaa1111111111")
-
+            file_name = "fighting2"
+            text = "서비스로봇이에요"
+            response_action = SocialMotionRequest(file_name=file_name, text=text, with_home=False)
+            response_sct = self.srv_motion_play.call(response_action)
             vel_msg = Twist()
-            vel_msg.linear.x = -0.1
-            vel_msg.linear.y = -0.1
+            vel_msg.linear.x = -0.2
+            vel_msg.linear.y = 0.2
             vel_msg.linear.z = 0.0
             vel_msg.angular.x = 0.0
             vel_msg.angular.y = 0.0

@@ -69,7 +69,7 @@ def cb_output(data):
 
         json_dict = json.loads(data.data)
 
-        if check_address(json_dict, "ETRI", "UOS", "human_recognitiopn"):
+        if check_address(json_dict, "ETRI", "UOS", "human_recognition"):
             print('Output Topic Name : {}'.format(colored("/recognitionResult", 'white', attrs=['bold'])))
             print('From : {}'.format(colored("[M2-1] ETRI Short-term Sociality Recognizer", 'blue', attrs=['bold'])))
 

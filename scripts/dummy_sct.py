@@ -22,7 +22,9 @@ def cb_output(data):
         os.system("pkill -9 -ef chrome")
     else:
         name_list = ["1_물다.jpg", "2_찌르다_검정.jpg", "3_다시듣기.jpg", "4_찌르다_노랑.jpg", "5_본실험시작.jpg", "6_묶다.jpg", "7_쫒다.jpg", "8_흔들다.jpg"]
-        base_url = "https://raw.githubusercontent.com/hyeonukbhin/deeptask_testbench/master/scripts/sct_screen/"
+        # base_url = "https://raw.githubusercontent.com/hyeonukbhin/deeptask_testbench/master/scripts/sct_screen/"
+        # base_url = "file:///home/kist/deeptask_ws/src/deeptask_testbench/scripts/sct_screen/"
+        base_url = "file:///home/bomy/deeptask_ws/src/deeptask_testbench/scripts/sct_screen/"
         # "https://raw.githubusercontent.com/hyeonukbhin/deeptask_testbench/master/scripts/sct_screen/1_%EB%AC%BC%EB%8B%A4.jpg"
         url = "{}{}".format(base_url, name_list[screen_num])
         webbrowser.get(using='google-chrome').open_new(url)
